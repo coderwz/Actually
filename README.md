@@ -1,0 +1,5 @@
+Actually
+========
+Actually is an application that tracks the time it takes users to complete real world tasks. A first version of the app will focus on work-related tasks, such as promises to get work done and adherence to deadlines. The app would utilize email and task lists to track commitments and delivery of documents and work and assess how well the user estimated the workload. The app could also access mobile device activity, desktop activity, social activity, browser history, and media consumption to model how much time was spent doing other things during the time frame.
+
+We expect the user-facing portion of Actually to be developed using responsive web design, or at least be fully functional on mobile, but the project team can propose the contemporary web framework or development environment of their choice. The project team will work with the client to determine the range of systems that the product will draw data from, and any connections to APIs or tools built to acquire data streams should be built modularly such that they can be shared among other apps developed by the SDL.
