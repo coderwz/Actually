@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'blog',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -59,7 +60,7 @@ WSGI_APPLICATION = 'djangoTutorial.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ActuallyBeta'),
+        'NAME': '',
         'USER': 'root',
         'PASSWORD':'q',
         'HOST':'127.0.0.1',
