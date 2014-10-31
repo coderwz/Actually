@@ -15,8 +15,8 @@ class Project(models.Model):
 	finishTime = models.DateTimeField('date the project finishes', null = True, blank = True)
 	progress = models.FloatField(default = 0)
 	prevProgress =models.FloatField(default = 0)
-	repo = models.CharField(max_length = 100)
-	repoOwner = models.CharField(max_length = 100)
+	repo = models.CharField(max_length = 100,default = 0)
+	repoOwner = models.CharField(max_length = 100,default = 0)
 
 	def addProject(self, name, description, startTime, repo, repoOwner):
 		self.name = name
@@ -49,7 +49,7 @@ class Project(models.Model):
 class PM(models.Model):
 	firstName = models.CharField(max_length = 50)
 	lastName = models.CharField(max_length = 50)
-	githubName = models.CharField(max_length =50)
+	githubName = models.CharField(max_length =50,default = 0)
 	project = models.ManyToManyField(Project, null = True, blank = True)
 
 	def __unicode__(self):
@@ -127,7 +127,7 @@ class Milestone(models.Model):
 	description = models.CharField(max_length = 1000, null = True, blank = True)
 	progress = models.FloatField(default = 0)
 	prevProgress = models.FloatField(default = 0)
-	percentage = models.FloatField()
+	percentage = models.FloatField(default = 0)
 	dueDate = models.DateTimeField()
 
 	def addMilestone(self, name, description, dueDate, percentage):
@@ -157,7 +157,7 @@ class Section(models.Model):
 	progress = models.FloatField(default = 0)
 	prevProgress = models.FloatField(default = 0)
 	developer = models.ForeignKey(Developer, null = True, blank = True)
-	project = models.ForeignKey(Project)
+	project = models.ForeignKey(Project, null = True)
 	milestone = models.ForeignKey(Milestone)
 
 	def __unicode__(self):
@@ -205,7 +205,7 @@ class Commit(models.Model):
 	commitTime = models.DateTimeField()
 	progress = models.FloatField()
 	developer = models.ForeignKey(Developer)
-	project = models.ForeignKey(Project)
+	project = models.ForeignKey(Project, null = True)
 	task = models.ForeignKey(Task)
 
 	def __unicode__(self):
