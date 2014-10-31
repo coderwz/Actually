@@ -25,8 +25,13 @@ class Project(models.Model):
 		self.progress = progress
 
 	def findPmDeveloperByProject(self,GivenProject):
-		findPM = Project.objects.filter(name = GivenProject)
-		return 
+		findProject = Project.objects.filter(name = GivenProject)
+		if (len(findPM) != 0):
+			PmName= PM.objects.filter(project =findProject)
+			DeveloperName = Developer.objects.filter(project = findProject)
+			return PmName + DeveloperName
+		else:
+			print 'no PM or Developer found by project'
 
 
 class PM(models.Model):
@@ -38,7 +43,21 @@ class PM(models.Model):
 	def __unicode__(self):
 		return '{} {}'.format(self.firstName, self.lastName)
 
+	def findProjectByPM(self, GivenGithub_name):
+		#many to many
+		findProjectByPM = Project.objects.filter(githubName = GivenGithub_name)
+		if (len(findProjectByPM) != 0):
+			return findProjectByPM 
+		else:
+			print 'no project found by PM'
 
+	def findMilestoneByPM(self, GivenGithub_name):
+		#many to many
+		findMilestoneByPM = Milestone.objects.filter(githubName = GivenGithub_name)
+		if (len(findMilestoneByPM) != 0):
+			return findMilestoneByPM
+		else:
+			print 'no milestone found by PM'	
 
 class Developer(models.Model):
 	firstName = models.CharField(max_length = 50)
@@ -47,10 +66,21 @@ class Developer(models.Model):
 	pmAssigned = models.ForeignKey(PM, null = True, blank = True)
 	project = models.ManyToManyField(Project, null = True, blank = True)
 
-	def findProjectByUser(self, GivenGithub_name):
+	def findProjectByDeveloper(self, GivenGithub_name):
 		#many to many
-		findDevloper = Project.objects.filter(githubName=GivenGithub_name)
-		return findDevloper
+		findDeveloperByDeveloper = Project.objects.filter(githubName=GivenGithub_name)
+		if (len(findDeveloperByDeveloper) != 0):
+			return findDeveloperByDeveloper
+		else:
+			print 'no project found by Developer'
+
+	def findMilestonByDeveloper(self, GivenGithub_name):
+		#many to many
+		findMilestonByDeveloper = Project.objects.filter(githubName=GivenGithub_name)
+		if (len(findMilestonByDeveloper) != 0):
+			return findMilestonByDeveloper
+		else:
+			print 'no project found by Developer'
 
 class Milestone(models.Model):
 	name = models.CharField(max_length = 100)
