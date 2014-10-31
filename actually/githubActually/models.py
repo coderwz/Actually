@@ -61,7 +61,7 @@ class PM(models.Model):
 		if (len(findProjectByPM) != 0):
 			return findProjectByPM 
 		else:
-			print 'no project found by PM'
+			print []
 
 	def addPM(self, firstName, lastName, githubName, project):
 		self.firstName = firstName
@@ -73,10 +73,10 @@ class PM(models.Model):
 	def findMilestoneByPM(self, GivenGithub_name):
 		#many to many
 		findMilestoneByPM = Milestone.objects.filter(githubName = GivenGithub_name)
-		if (len(findMilestoneByPM) != 0):
+		if (len(findMilestoneByPM) != 0 and len()):
 			return findMilestoneByPM
 		else:
-			print 'no milestone found by PM'	
+			print []	
 
 class Developer(models.Model):
 	firstName = models.CharField(max_length = 50)
@@ -95,22 +95,28 @@ class Developer(models.Model):
 		self.save()
 
 
-
 	def findProjectByDeveloper(self, GivenGithub_name):
 		#many to many
-		findDeveloperByDeveloper = Project.objects.filter(githubName=GivenGithub_name)
-		if (len(findDeveloperByDeveloper) != 0):
-			return findDeveloperByDeveloper
+		findProjectByDeveloper = Project.objects.filter(githubName=GivenGithub_name)
+
+		#call findProjectByPM in PM class
+		instancePM = PM()
+		findProjectByPM = instancePM.findProjectByPM
+		if (len(findProjectByDeveloper) != 0 and len(findProjectByPM) !=0):
+			return findDeveloperByDeveloper+findProjectByPM
 		else:
-			print 'no project found by Developer'
+			print 'error happening'
 
 	def findMilestonByDeveloper(self, GivenGithub_name):
 		#many to many
+		#call findProjectByPM in PM class
+		instancePM = PM()
+		findMilestoneByPM = instancePM.findMilestoneByPM
 		findMilestonByDeveloper = Project.objects.filter(githubName=GivenGithub_name)
-		if (len(findMilestonByDeveloper) != 0):
-			return findMilestonByDeveloper
+		if (len(findMilestonByDeveloper) != 0 and len(findMilestoneByPM)!=0):
+			return findMilestonByDeveloper + findMilestoneByPM
 		else:
-			print 'no project found by Developer'
+			print 'error happening'
 
 	def __unicode__(self):
 		return '{} {}'.format(self.firstName, self.lastName)
