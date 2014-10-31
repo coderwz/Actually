@@ -1,6 +1,7 @@
 from django.db import models
 import datetime
 from django.utils import timezone
+import Section
 
 class Task(models.Model):
 	name = models.CharField(max_length = 100)

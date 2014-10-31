@@ -4,6 +4,10 @@ from django.utils import timezone
 
 # Create your models here.
 # Users include developers and product managers
+# give github name , return projects
+# give project , return all users, and pm( at top of list)
+# give a github name, return all milestones 
+
 class Project(models.Model):
 	name = models.CharField(max_length = 100)
 	description = models.CharField(max_length = 1000, null = True, blank = True)
@@ -23,6 +27,7 @@ class Project(models.Model):
 		self.repoOwner = repoOwner
 		self.save()
 
+
 	def __unicode__(self):
 		return self.name
 
@@ -31,6 +36,9 @@ class Project(models.Model):
 		self.progress = progress
 		self.save()
 
+	def findPmDeveloperByProject(self,GivenProject):
+		findPM = Project.objects.filter(name = GivenProject)
+		return 
 
 
 class PM(models.Model):
@@ -42,17 +50,13 @@ class PM(models.Model):
 	def __unicode__(self):
 		return '{} {}'.format(self.firstName, self.lastName)
 
+
 	def addPM(self, firstName, lastName, githubName, project):
 		self.firstName = firstName
 		self.lastName = lastName
 		self.githubName = githubName
 		self.project = project
 		self.save()
-
-	# def __init__(self, name, githubName, project):
-	# 	self.name = name
-	# 	self.project = project
-	# 	self.githubName = githubName
 
 class Developer(models.Model):
 	firstName = models.CharField(max_length = 50)
@@ -72,6 +76,14 @@ class Developer(models.Model):
 
 
 
+	def findProjectByUser(self, GivenGithub_name):
+		#many to many
+		findDevloper = Project.objects.filter(githubName=GivenGithub_name)
+		return findDevloper
+
+	def __unicode__(self):
+		return '{} {}'.format(self.firstName, self.lastName)
+
 
 class Milestone(models.Model):
 	name = models.CharField(max_length = 100)
@@ -88,9 +100,9 @@ class Milestone(models.Model):
 		self.percentage = percentage
 		self.save()
 
+
 	def __unicode__(self):
 		return self.name
-
 
 	def update(self, progress):
 		self.prevProgress = self.progress
@@ -101,10 +113,6 @@ class Milestone(models.Model):
 		self.progress = self.progress + progress/prog
 		self.save()
 
-
-
-
-
 class Section(models.Model):
 	name = models.CharField(max_length = 100)
 	description = models.CharField(max_length = 1000, null = True, blank = True)
@@ -114,16 +122,6 @@ class Section(models.Model):
 	developer = models.ForeignKey(Developer, null = True, blank = True)
 	project = models.ForeignKey(Project)
 	milestone = models.ForeignKey(Milestone)
-
-	# def __init__(slef, name, description, percentage, project, progress, developer, milestone):
-	# 	self.name = name
-	# 	self.description = description
-	# 	self.percentage = percentage
-	# 	self.progress = 0
-	# 	self.project = project
-	# 	self.developer = developer
-	# 	self.milestone = milestone
-
 
 	def __unicode__(self):
 		return self.name
@@ -162,16 +160,9 @@ class Task(models.Model):
 		self.section = section
 		self.save()
 
+
 	def __unicode__(self):
 		return self.name
-
-
-
-
-
-
-
-
 
 class Commit(models.Model):
 	commitTime = models.DateTimeField()
@@ -179,12 +170,6 @@ class Commit(models.Model):
 	developer = models.ForeignKey(Developer)
 	project = models.ForeignKey(Project)
 	task = models.ForeignKey(Task)
-
-	# def __init__(self, developer, task):
-	# 	self.developer = developer
- #    	self.task = task
- #    	self.progress = progress
-    	# self.task.update(progress)
 
 	def __unicode__(self):
 		return '{} {} {} {:.2f} {}'.format(self.developer.firstName, self.developer.lastName, 
