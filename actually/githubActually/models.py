@@ -115,6 +115,9 @@ class Commit(models.Model):
 	developer = models.ForeignKey(Developer)
 	project = models.ForeignKey(Project, null = True)
 	task = models.ForeignKey(Task)
+	linescode = models.CharField(max_length = 1000, null = True, blank = True)
+	commitmessage = models.CharField(max_length = 1000, null = True, blank = True)
+
 	optional1 = models.CharField(max_length = 100, null = True, blank = True)
 	optional2 = models.CharField(max_length = 100, null = True, blank = True)
 	optional3 = models.CharField(max_length = 100, null = True, blank = True)

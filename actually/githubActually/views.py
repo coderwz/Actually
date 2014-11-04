@@ -70,10 +70,10 @@ def findMilestonsByDeveloperProject(developerID,projectID):
 	milestons = Milestone.objects.filter(project = projectID,developer = developerID)
 	return milestons
 
-def test(request):
+# def test(request):
 
- 	data = findSectionByProjectIDDeveloperID(1,1)
-	return render_to_response('test.html',{'msg':data})
+#  	data = findSectionByProjectIDDeveloperID(1,1)
+# 	return render_to_response('test.html',{'msg':data})
 
 
 def findSectionByProjectIDDeveloperID(projectID,developerID):
@@ -81,9 +81,25 @@ def findSectionByProjectIDDeveloperID(projectID,developerID):
 	return section
 
 
+def findLinesofCodebyProjectIDDeverloperID(projectID, developerID):
+	commit = Commit.objects.get(project = projectID, developer = developerID)
+	return commit.linescode
 
+def findCommitMessagebyProjectIDDeverloperID(projectID, developerID):
+	commit = Commit.objects.get(project = projectID, developer = developerID)
+	return commit.commitmessage
 
+def findCommitTimebyProjectIDDeverloperID(projectID, developerID):
+	commit = Commit.objects.get(project = projectID, developer = developerID)
+	return commit.commitTime
 
+def test(request):
+	#data = Person.sdafasdf;
+	#project name actually
+
+	data = findCommitTimebyProjectIDDeverloperID(1,1)
+
+	return render_to_response('test.html',{'msg':data})
 
 # def findSectionByMilestoneID(milestoneID):
 
@@ -105,13 +121,7 @@ def findTasksBySectionID(sectionID):
 
 
 
-# def test(request):
-# 	#data = Person.sdafasdf;
-# 	#project name actually
 
-# 	data = '1'
-
-# 	return render_to_response('test.html',{'msg':data})
 
 
 
